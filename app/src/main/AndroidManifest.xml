@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:app="http://schemas.android.com/apk/res-auto"
           package="edu.utah.cs4710.rusty.base_ic">
 
     <application
@@ -9,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -17,6 +19,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".HexActivity"></activity>
+        <activity android:name=".ToggleActivity"></activity>
+        <activity android:name=".RangeActivity">
+
+        </activity>
     </application>
 
 </manifest>
