@@ -29,6 +29,7 @@ public class RangeActivity  extends AppCompatActivity implements SeekBar.OnSeekB
 
 
         SeekBar seekBar = new SeekBar(this);
+        //seekBar.setPointerIcon();
         rootLayout.addView(seekBar, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         setContentView(rootLayout);
 
