@@ -43,10 +43,15 @@ public class ToggleActivity extends AppCompatActivity implements CompoundButton.
     Switch deadbolt;
     ListView _listView = null;
     Peripheral _peripheral = null;
+    private SendHTTPService _sendHTTPService;
+    int _perId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        _sendHTTPService = SendHTTPService.getInstance();
+
 
         LinearLayout rootLayout = new LinearLayout(this);
 
@@ -130,6 +135,8 @@ public class ToggleActivity extends AppCompatActivity implements CompoundButton.
         toggleButton.setBackgroundColor(Color.DKGRAY);
         toggleButton.setTextColor(Color.YELLOW);
         toggleButton.setOnClickListener(this);
+        toggleButton.setId(i);
+//        _perId = i;
         return toggleButton;
     }
 
@@ -153,6 +160,11 @@ public class ToggleActivity extends AppCompatActivity implements CompoundButton.
 
     @Override
     public void onClick(View view) {
-
+        int id = view.getId();
+        String address = _peripheral.address;
+        Integer serviceId = _peripheral.getInput_services().get(id).getService().getId();
+        Integer serviceNumber = _peripheral.getInput_services().get(id).getService_number();
+        String value = "01";
+        _sendHTTPService.sendHTTPPostRequest(address, serviceId.toString(), serviceNumber.toString(), value);
     }
 }
