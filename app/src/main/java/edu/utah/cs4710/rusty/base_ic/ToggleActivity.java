@@ -44,14 +44,12 @@ public class ToggleActivity extends AppCompatActivity implements CompoundButton.
     ListView _listView = null;
     Peripheral _peripheral = null;
     private SendHTTPService _sendHTTPService;
-    int _perId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         _sendHTTPService = SendHTTPService.getInstance();
-
 
         LinearLayout rootLayout = new LinearLayout(this);
 
@@ -136,7 +134,6 @@ public class ToggleActivity extends AppCompatActivity implements CompoundButton.
         toggleButton.setTextColor(Color.YELLOW);
         toggleButton.setOnClickListener(this);
         toggleButton.setId(i);
-//        _perId = i;
         return toggleButton;
     }
 

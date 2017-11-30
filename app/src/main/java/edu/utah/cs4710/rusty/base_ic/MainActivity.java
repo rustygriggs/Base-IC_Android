@@ -205,6 +205,10 @@ public class MainActivity extends AppCompatActivity implements PerLobbyService.P
             }
             else if (serviceName.equals("Range")) {
                 // TODO: go to range activity
+                Intent showRangeActivity = new Intent();
+                showRangeActivity.putExtra("peripheral", per);
+                showRangeActivity.setClass(view.getContext(), RangeActivity.class);
+                view.getContext().startActivity(showRangeActivity);
             }
             else if (serviceName.equals("Hex")) {
                 // TODO: go to hex activity
