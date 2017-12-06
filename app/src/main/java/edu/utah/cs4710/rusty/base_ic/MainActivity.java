@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.RecoverySystem;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -19,6 +22,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.marcinmoskala.arcseekbar.ArcSeekBar;
+import com.marcinmoskala.arcseekbar.ProgressListener;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +35,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class MainActivity extends AppCompatActivity implements PerLobbyService.PeripheralListReceivedListener, ListAdapter, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements PerLobbyService.PeripheralListReceivedListener, ListAdapter, View.OnClickListener, ProgressListener {
     boolean hexButtonClicked = false;
     boolean toggleButtonClicked = false;
     boolean rangeButtonClicked = false;
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements PerLobbyService.P
     PerLobbyService _perLobbyService = null;
     ListView _listView = null;
     List<Peripheral> _allPeripherals = new ArrayList<>();
+    TextView textRange = null;
 
 
     @Override
@@ -51,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements PerLobbyService.P
 
         _perLobbyService.getPeripheralsList();
 
-
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         LinearLayout rootLayout = new LinearLayout(this);
         rootLayout.setOrientation(LinearLayout.VERTICAL);
@@ -92,12 +98,15 @@ public class MainActivity extends AppCompatActivity implements PerLobbyService.P
 
         _listView = new ListView(this);
         _listView.setAdapter(this);
-        _listView.setBackgroundColor(Color.RED);
+        _listView.setBackgroundColor(Color.argb(255, 140, 63, 63));
         //_listView.invalidateViews();
 
         //rootLayout.addView(hexButton, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1));
 //        rootLayout.addView(toggleButton, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1));
 //        rootLayout.addView(rangeButton, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1));
+
+
+
         rootLayout.addView(_listView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 5));
 
 
@@ -153,17 +162,22 @@ public class MainActivity extends AppCompatActivity implements PerLobbyService.P
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-
-        TextView textView = new TextView(this);
-        textView.setBackgroundColor(Color.DKGRAY);
-        textView.setTextColor(Color.YELLOW);
-        textView.setId(_allPeripherals.get(i).id);
-        textView.setOnClickListener(this);
+        Button perButton = new Button(this);
+        perButton.setBackgroundColor(Color.argb(255, 0, 82, 133));
+        perButton.setTextColor(Color.LTGRAY);
+        perButton.setId(i);
+        perButton.setOnClickListener(this);
+//
+//        TextView textView = new TextView(this);
+//        textView.setBackgroundColor(Color.DKGRAY);
+//        textView.setTextColor(Color.YELLOW);
+//        textView.setId(_allPeripherals.get(i).id);
+//        textView.setOnClickListener(this);
         _perLobbyService = PerLobbyService.getInstance();
 
-        textView.setText(_allPeripherals.get(i).name + "\n" + _allPeripherals.get(i).id);
+        perButton.setText(_allPeripherals.get(i).name);
 
-        return textView;    }
+        return perButton;    }
 
     @Override
     public int getItemViewType(int i) {
@@ -185,7 +199,8 @@ public class MainActivity extends AppCompatActivity implements PerLobbyService.P
 
     @Override
     public void onClick(View view) {
-        Peripheral per = _allPeripherals.get(view.getId() - 1);
+        int id = view.getId();
+        Peripheral per = _allPeripherals.get(view.getId());
         List<IOService> iosList = per.getInput_services();
 
         if (iosList.size() > 1) { //multiple toggles
@@ -195,7 +210,6 @@ public class MainActivity extends AppCompatActivity implements PerLobbyService.P
             view.getContext().startActivity(showToggleButton);
         }
         else { //not necessarily toggle, check for other input types (Toggle, Hex, Range)
-            // TODO: check type
             String serviceName = iosList.get(0).getService().getName();
             if (serviceName.equals("Toggle")) {
                 Intent showToggleButton = new Intent();
@@ -204,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements PerLobbyService.P
                 view.getContext().startActivity(showToggleButton);
             }
             else if (serviceName.equals("Range")) {
-                // TODO: go to range activity
                 Intent showRangeActivity = new Intent();
                 showRangeActivity.putExtra("peripheral", per);
                 showRangeActivity.setClass(view.getContext(), RangeActivity.class);
@@ -217,6 +230,15 @@ public class MainActivity extends AppCompatActivity implements PerLobbyService.P
         }
         //String type = _allPeripherals.get(perId).
     }
+
+    @Override
+    public void invoke(int i) {
+        textRange.setText(String.valueOf(i) + " % open");
+    }
+
+
+
+
 
 
 //    @Override

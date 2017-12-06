@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class PerLobbyService {
     private PeripheralListReceivedListener _peripheralListReceivedListener = null;
     private static PerLobbyService _Instance;
-    String PI_URL_PERIPHERAL_LIST = "http://192.168.86.239/api/v1/peripherals/";
+    String PI_URL_PERIPHERAL_LIST = "http://192.168.100.100/api/v1/peripherals/";
 
 
     public static PerLobbyService getInstance() {

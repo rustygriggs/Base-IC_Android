@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class ToggleActivity extends AppCompatActivity implements CompoundButton.
 
         _sendHTTPService = SendHTTPService.getInstance();
 
-        LinearLayout rootLayout = new LinearLayout(this);
+        RelativeLayout rootLayout = new RelativeLayout(this);
 
         deadbolt = new Switch(this);
 
@@ -61,7 +62,7 @@ public class ToggleActivity extends AppCompatActivity implements CompoundButton.
 
         _listView = new ListView(this);
         _listView.setAdapter(this);
-        _listView.setBackgroundColor(Color.RED);
+        _listView.setBackgroundColor(Color.argb(255, 140, 63, 63));
 
 //        LinearLayout.LayoutParams deadboltLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 0, 1);
 //        deadboltLayoutParams.gravity = Gravity.CENTER;
@@ -130,9 +131,10 @@ public class ToggleActivity extends AppCompatActivity implements CompoundButton.
         Button toggleButton = new Button(this);
         String buttonText = _peripheral.getInput_services().get(i).getService_name();
         toggleButton.setText(buttonText);
-        toggleButton.setBackgroundColor(Color.DKGRAY);
-        toggleButton.setTextColor(Color.YELLOW);
+        toggleButton.setBackgroundColor(Color.argb(255, 0, 82, 133));
+        toggleButton.setTextColor(Color.LTGRAY);
         toggleButton.setOnClickListener(this);
+        toggleButton.setGravity(Gravity.CENTER_HORIZONTAL);
         toggleButton.setId(i);
         return toggleButton;
     }

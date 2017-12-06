@@ -30,7 +30,7 @@ public class SendHTTPService {
 
     public static final String HTTP_POST = "POST";
 
-    public static final String PROCESS_URL = "http://192.168.86.239/api/v1/process/zigbee";
+    public static final String PROCESS_URL = "http://192.168.100.100/api/v1/process/zigbee";
 
     public void sendHTTPPostRequest (final String address, final String serviceId, final String serviceNumber, final String value) {
         // {"address":"address String","data":["serviceId string", "serviceNumber String", "value String"]}
